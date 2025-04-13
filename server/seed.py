@@ -21,6 +21,10 @@ if __name__ == "__main__":
             title="Apply for Jr Software Developer role at Ministry of Justice UK",
             task_description="I need to apply for this position by creating a to-do list, and writing a personal statement",
             task_status="In Progress",
-            due_date=date(),
-            due_time=
+            due_date=datetime(2025, 4, 13),
+            due_time=time(18, 0)
         )
+        db.session.add_all([apply_ministry_of_justice])
+        db.session.commit()
+
+        print("Finished seeding")

@@ -1,6 +1,11 @@
 from flask import request, make_response, session, render_template
 
+from flask_restful import Resource
+
 from models import Task
+
+from config import app, db, api
+
 
 # The backend should be able to:
 # - Create a task with the following properties:

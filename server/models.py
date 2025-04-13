@@ -9,7 +9,11 @@
 # - Update the status of a task
 # - Delete a task
 
-from sqlalchemy import Time
+from sqlalchemy import Time, DateTime
+from datetime import datetime, date, time
+from sqlalchemy.orm import validates
+from config import db
+from sqlalchemy_serializer import SerializerMixin
 
 #Create the TASK Model
 class Task(db.Model, SerializerMixin):
@@ -35,7 +39,7 @@ class Task(db.Model, SerializerMixin):
     def validate_due_date(self, key, due_date_value):
         if due_date_value.date() < date.today():
             raise ValueError("Due date can not be in the past")
-        raturn due_date_value
+        return due_date_value
 
     #Set up validation for due_tiem (can not set a time on the date that has already passed)
     @validates(due_time)
