@@ -31,5 +31,21 @@ class Task(db.Model, SerializerMixin):
         raise ValueError(f"Value of task_status must be Complete, Incomplete, or In Progress")
 
     #Set up validation for due_date (can not set a task who's due date is passed)
+    @validates(due_date)
+    def validate_due_date(self, key, due_date_value):
+        if due_date_value.date() < date.today():
+            raise ValueError("Due date can not be in the past")
+        raturn due_date_value
 
     #Set up validation for due_tiem (can not set a time on the date that has already passed)
+    @validates(due_time)
+    def validate_due_time(self, key, due_time_value):
+        #Find out when the due date is
+        due_date_value = self.due_date if isinstance(self.due_date, datetime) else None
+
+        #If the due date is today, ensure that the due_time has not yet past
+        if due_date_value and due_date_value.date() == date.today():
+            now = datetime.now()
+            if due_time_value < now.time():
+                raise ValueError("Due time can not be in the past")
+            return due_time_value
