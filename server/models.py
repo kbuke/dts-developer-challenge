@@ -25,6 +25,8 @@ class Task(db.Model, SerializerMixin):
     task_status=db.Column(db.String, nullable=False, server_default="Incomplete")
     due_date=db.Column(db.DateTime, nullable=False)
     due_time=db.Column(db.Time, nullable=False)
+    #add an optional image to specific task
+    task_img=db.Column(db.Time, nullable=True)
 
     #Set up validation for task_status
     ALLOWED_STATUS_OPTIONS = ("Complete", "Incomplete", "In Progress")
