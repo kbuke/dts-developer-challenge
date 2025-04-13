@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 import AddTask from "./1.04-AddTask"
 
@@ -10,6 +10,15 @@ export default function ToDoList({
     statusOptions
 }){
     const [addTask, setAddTask] = useState(false)
+    const [tasks, setTasks] = useState([])
+
+    console.log(allTasks)
+
+    useEffect(() => {
+        setTasks(allTasks.map(task => task))
+    }, [allTasks])
+
+    console.log(tasks)
 
     //Render tasks based on period and status
     const renderTasks = (taskArray) => {
@@ -81,7 +90,7 @@ export default function ToDoList({
             }
 
             {taskPeriod==="All" ?
-                renderTasks(allTasks)
+                renderTasks(tasks)
                 :
                 null
             }

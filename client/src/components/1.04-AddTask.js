@@ -80,18 +80,24 @@ export default function AddTask({
         },
         validationSchema: formSchema,
         onSubmit: (values) => {
-            fetch("tasks", {
+            fetch("/tasks", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify(values, null, 2),
             }).then((res) => {
-                if(res.status == 200) {
-                    setRefreshPg(!refreshPg)
+                if (res.ok) {
+                    fetch("/tasks")
+                        .then(r => r.json())
+                        .then(data => {
+                            setAllTasks(data)
+                            setAddTask(false) 
+                        })
                 }
             })
         }
+        
     })
     return(
         <section>
