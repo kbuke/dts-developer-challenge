@@ -9,6 +9,8 @@
 # - Update the status of a task
 # - Delete a task
 
+from sqlalchemy import Time
+
 #Create the TASK Model
 class Task(db.Model, SerializerMixin):
     __tablename__="task_list"
