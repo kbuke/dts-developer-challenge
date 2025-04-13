@@ -19,6 +19,13 @@ export default function Page(){
 
     //Show period of tasks (all, daily, weekly, monthly)
     const [taskPeriod, setTaskPeriod] = useState("All")
+    //Set time period options
+    const timeOptions = ["All", "Today", "This Week", "This Month", "Overdue"]
+
+    //Show status of tasks
+    const [taskStatus, setTaskStatus] = useState("All")
+    //Set status options
+    const statusOptions = ["All", "Complete", "Incomplete", "In Progress"]
 
     //Fetch all tasks
     useEffect(() => {
@@ -52,6 +59,12 @@ export default function Page(){
                     setAllTasks={setAllTasks}
 
                     taskPeriod={taskPeriod}
+                    setTaskPeriod={setTaskPeriod}
+                    timeOptions={timeOptions}
+
+                    taskStatus={taskStatus}
+                    setTaskStatus={setTaskStatus}
+                    statusOptions={statusOptions}
                 />
             </div>
         </div>

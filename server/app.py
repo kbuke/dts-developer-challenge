@@ -6,6 +6,8 @@ from models import Task
 
 from config import app, db, api
 
+from datetime import datetime
+
 
 # The backend should be able to:
 # - Create a task with the following properties:
@@ -27,13 +29,21 @@ class Tasks(Resource):
     #add a new task
     def post(self):
         json = request.get_json()
+        # breakpoint()
         try:
+            due_date_str = json.get("newTaskDueDate")
+            due_date = datetime.strptime(due_date_str, "%Y-%m-%d").date() if due_date_str else None
+
+            due_time_str = json.get("newTaskDueTime")
+            due_time = datetime.strptime(due_time_str, "%H:%M").time() if due_time_str else None
+
             new_task = Task(
                 title=json.get("newTaskTitle"),
                 task_description=("newTaskDescription"),
                 task_status=("newTaskStatus"),
-                due_date=("newTaskDueDate"),
-                due_time=("newTaskDueTime")
+                due_date=due_date,
+                due_time=due_time,
+                task_img=("newTaskImg")
             )
             db.session.add(new_task)
             db.session.commit()
