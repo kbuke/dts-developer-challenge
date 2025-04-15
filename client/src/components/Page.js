@@ -65,6 +65,8 @@ export default function Page(){
                     taskStatus={taskStatus}
                     setTaskStatus={setTaskStatus}
                     statusOptions={statusOptions}
+
+                    numberOfTasks={numberOfTasks}
                 />
             </div>
         </div>

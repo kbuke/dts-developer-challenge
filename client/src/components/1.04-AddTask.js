@@ -7,7 +7,6 @@ export default function AddTask({
     statusOptions,
     setAddTask
 }){
-    const [refreshPg, setRefreshPg] = useState(false)
 
     //create input fields
     const newTaskInput = (labelHeading, inputType) => (

@@ -7,7 +7,7 @@ export default function ToDoList({
     taskPeriod, setTaskPeriod,
     timeOptions,
     taskStatus, setTaskStatus,
-    statusOptions
+    statusOptions, numberOfTasks
 }){
     const [addTask, setAddTask] = useState(false)
     const [tasks, setTasks] = useState([])
@@ -66,7 +66,7 @@ export default function ToDoList({
 
     return(
         <section>
-            <h1>To Do List</h1>
+            <h1>{`To do list (${numberOfTasks})`}</h1>
 
             {buttonConatiners("Tasks to be completed:", timeOptions, setTaskPeriod)}
 
