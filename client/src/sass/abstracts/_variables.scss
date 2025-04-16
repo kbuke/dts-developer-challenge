@@ -1,0 +1,30 @@
+
+
+//set primary colours
+$color-primary-light: #7baff3;
+$color-secondary-dark: #276fce;
+
+//set up other colours
+$color-white: #fff;
+$color-black: #000;
+
+//set up shadow variables
+$box-shadow-dark: 0 1rem 2rem rgba($color-black, 0.2);
+$box-shadow-light: 0 .5rem 1rem rgba($color-black, 0.2);
+$card-shadow: 0 3rem 6rem rgba($color-black, .1);
+
+//set up background color
+$background-grey: #c7c7c7;
+
+//set up grid variables
+$grid-width: 114rem;
+
+$gutter-vertical: 8rem;
+$gutter-horizontal: 6rem;
+
+//set up button colors
+$button-delete-red-dark: #c20000;
+$button-delete-red-light: #fd4545;
+
+$button-edit-purple-dark: #a501f7;
+$button-edit-purple-light: #bd44fa

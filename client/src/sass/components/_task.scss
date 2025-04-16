@@ -1,0 +1,63 @@
+.task{
+    &__card{
+        width: 70%;
+        margin: 0 auto;
+        box-shadow: $card-shadow;
+        background-color: rgba($color-white, .6);
+        border-radius: 3px;
+        padding: 6rem;
+        padding-left: 9rem;
+        transform: skewX(-12deg);
+        margin-bottom: 5rem;
+        &__shape{
+            width: 15rem;
+            height: 15rem;
+            float: left;
+            -webkit-shape-outside: circle(50% at 50% 50%);
+            shape-outside: circle(50% at 50% 50%);
+
+            -webkit-clip-path: circle(50% at 50% 50%);
+            clip-path: circle(50% at 50% 50%);
+
+            transform: translateX(-3rem) skewX(12deg);
+            position: relative;
+            top: -2rem;
+        }
+        &__img{
+            height: 95%;
+            transform: translateX(-4rem) scale(1.4);
+            transition: all .5s;
+        }
+
+        &:hover &__img{
+            transform: translateX(-4rem) scale(1);
+            filter: blur(3px) brightness(80%);
+        }
+    }
+
+    &__text{
+        transform: skewX(12deg);
+    }
+
+    &__buttons{
+        margin-right: 1rem;
+        transform: skewX(12deg);
+        margin-top: 1rem;
+
+        &--edit{
+            background-image: linear-gradient(to right bottom,
+                $button-edit-purple-dark,
+                $button-edit-purple-light
+            );
+            color: white;
+        }
+
+        &--delete{
+            background-image: linear-gradient(to right bottom,
+                $button-delete-red-dark,
+                $button-delete-red-light
+            );
+            color: white;
+        }
+    }
+}

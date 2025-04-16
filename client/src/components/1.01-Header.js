@@ -1,26 +1,33 @@
 
-import backgroundVid from "../resources/video/backgroundVid.mp4"
+
 
 export default function Header(){
+
+    //create variable for buttons
+    const homeButton = (buttonLink, buttonName) => {
+        return(
+            <a className="btn btn__white" href={buttonLink}>
+                {buttonName}
+            </a>
+        )
+    }
+
     return(
         <div className="header">
-            <div className="bg-video">
-                <video autoPlay muted loop className="bg-video__content">
-                    <source src={backgroundVid} type="video/mp4"/>
-                    Your browser is not supported
-                </video>
-            </div>
-
-            <div className="header__text-box">
-                <h1 className="heading-primary">
-                    <span className="heading-primary--main">
-                        To-do-loo
+            <div className="header__text--box">
+                <h1 className="heading--primary">
+                    <span className="heading--primary--main">
+                        ToDo-Loo
                     </span>
 
-                    <span className="heading-primary--sub">
-                        Manage Your Life
+                    <span className="heading--primary--sub">
+                        Time's Ticking
                     </span>
                 </h1>
+            </div>
+
+            <div className="btn--box">
+                {homeButton("#", "See To Do List")}
             </div>
         </div>
     )

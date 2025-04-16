@@ -4,12 +4,15 @@ import Header from "./1.01-Header"
 import ToDoProgress from "./1.02-ToDoProgress"
 import ToDoList from "./1.03-ToDoList"
 
-export default function Page(){
+export default function Page({
+    allTasks,
+    setAllTasks
+}){
     //Show all tasks, completed tasks, tasks in progress and tasks not started 
-    const [allTasks, setAllTasks] = useState([])
     const [completedTasks, setCompletedTasks] = useState([])
     const [tasksInProgress, setTasksInProgress] = useState([])
     const [notStartedTasks, setNotStartedTasks] = useState([])
+    const [displayedTask, setDisplayedTask] = useState([])
 
     //Calculate task numbers
     const [numberOfTasks, setNumberOfTasks] = useState([])
@@ -27,18 +30,19 @@ export default function Page(){
     //Set status options
     const statusOptions = ["All", "Complete", "Incomplete", "In Progress"]
 
-    //Fetch all tasks
     useEffect(() => {
-        fetch("/tasks")
-        .then(r => {
-            if(r.ok){
-                return r.json()
-                .then(tasks => {
-                    setAllTasks(tasks)
-                })
-            }
-        })
-    }, [])
+        if (taskStatus === "All") {
+            setDisplayedTask(allTasks)
+        } else if (taskStatus === "Complete") {
+            setDisplayedTask(allTasks.filter(task => task.task_status === "Complete"))
+        } else if (taskStatus === "In Progress") {
+            setDisplayedTask(allTasks.filter(task => task.task_status === "In Progress"))
+        } else if (taskStatus === "Incomplete") {
+            setDisplayedTask(allTasks.filter(task => task.task_status === "Incomplete"))
+        }
+    }, [allTasks, taskStatus])
+    
+
 
     //Calculate number of tasks whenever there is a change
     useEffect(() => {
@@ -52,22 +56,24 @@ export default function Page(){
         <div>
             <Header />
 
-            <div>
-                <ToDoProgress />
-                <ToDoList 
-                    allTasks={allTasks}
-                    setAllTasks={setAllTasks}
+            <div className="section--todo">
+                <div className="row">
+                    <ToDoProgress />
+                    <ToDoList 
+                        allTasks={displayedTask}
+                        setAllTasks={setAllTasks}
 
-                    taskPeriod={taskPeriod}
-                    setTaskPeriod={setTaskPeriod}
-                    timeOptions={timeOptions}
+                        taskPeriod={taskPeriod}
+                        setTaskPeriod={setTaskPeriod}
+                        timeOptions={timeOptions}
 
-                    taskStatus={taskStatus}
-                    setTaskStatus={setTaskStatus}
-                    statusOptions={statusOptions}
+                        taskStatus={taskStatus}
+                        setTaskStatus={setTaskStatus}
+                        statusOptions={statusOptions}
 
-                    numberOfTasks={numberOfTasks}
-                />
+                        numberOfTasks={numberOfTasks}
+                    />
+                </div>
             </div>
         </div>
     )

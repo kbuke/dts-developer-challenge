@@ -1,0 +1,12 @@
+.section--todo{
+    padding: 10rem 0;
+    margin-top: -10vh;
+    background-color: $background-grey;
+    height: 85vh;
+
+    &__list{
+        position: relative;
+        height: 96vh;
+        overflow-x: auto;
+    }
+}
