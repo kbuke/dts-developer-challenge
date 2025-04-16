@@ -8,18 +8,6 @@ from config import app, db, api
 
 from datetime import datetime
 
-
-# The backend should be able to:
-# - Create a task with the following properties:
-#   - Title - done
-#   - Description (optional field) - done
-#   - Status - done
-#   - Due date/time
-# - Retrieve a task by ID
-# - Retrieve all tasks
-# - Update the status of a task
-# - Delete a task
-
 class Tasks(Resource):
     #retrieve all tasks
     def get(self):
@@ -54,10 +42,11 @@ class Tasks(Resource):
 class TasksId(Resource):
     #retrieve task by id
     def get(self, id):
-        task = Task.query.filter(Tasks.id==id).first()
-        if tasks:
+        task = Task.query.filter(Task.id == id).first()
+        if task:
             return make_response(task.to_dict(), 201)
         return {"error": "Task not found"}, 404
+
     
     #patch task by id
     def patch(self, id):
@@ -76,7 +65,8 @@ class TasksId(Resource):
 
     #delete task by id
     def delete(self, id):
-        task = Task.query.filter(Task.id==id).first()
+        task = Task.query.filter(Task.id == id).first()
+
         if task:
             db.session.delete(task)
             db.session.commit()

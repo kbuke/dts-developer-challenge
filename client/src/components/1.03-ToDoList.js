@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 
 import AddTask from "./1.04-AddTask"
+import DeleteTask from "./1.05-DeleteTask"
 
 export default function ToDoList({
     displayedTask, setDisplayedTask,
@@ -10,6 +11,9 @@ export default function ToDoList({
     taskStatus, setTaskStatus
 }){
     const [addTask, setAddTask] = useState(false)
+    const [editTask, setEditTask] = useState(false)
+    const [deleteTask, setDeleteTask] = useState(false)
+    const [selectedTaskId, setSelectedTaskId] = useState()
 
     const todoDefaultImg = "https://images.unsplash.com/photo-1644329843491-99edfc83de04?q=80&w=2671&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 
@@ -18,8 +22,11 @@ export default function ToDoList({
 
 
     //create task buttons for edits and deletes
-    const taskButtons = (buttonText, buttonType) => (
-        <button className={`btn task__buttons task__buttons--${buttonType}`}>
+    const taskButtons = (buttonText, buttonType, setTaskId, taskId, setTaskAction) => (
+        <button 
+            className={`btn task__buttons task__buttons--${buttonType}`}
+            onClick={() => {setTaskAction(true); setTaskId(taskId)}}
+        >
             {buttonText}
         </button>
     )
@@ -64,8 +71,8 @@ export default function ToDoList({
                         <h3>Status: {task.task_status}</h3>
                     </div>
                     <div className="task__buttons--box">
-                        {taskButtons("Edit Info", "edit")}
-                        {taskButtons("Delete Task", "delete")}
+                        {taskButtons("Edit Info", "edit", setSelectedTaskId, task.id, setEditTask)}
+                        {taskButtons("Delete Task", "delete", setSelectedTaskId, task.id, setDeleteTask)}
                     </div>
                 </div>
         ))
@@ -100,6 +107,18 @@ export default function ToDoList({
                         statusOptions={statusOptions}
                         setAddTask={setAddTask}
                         date={date}
+                    />
+                    :
+                    null
+            }
+
+            {
+                deleteTask?
+                    <DeleteTask 
+                        setDeleteTask={setDeleteTask}
+                        allTasks={allTasks}
+                        setAllTasks={setAllTasks}
+                        selectedTaskId={selectedTaskId}
                     />
                     :
                     null
