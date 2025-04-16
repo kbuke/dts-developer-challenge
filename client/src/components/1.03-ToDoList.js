@@ -3,31 +3,46 @@ import { useEffect, useState } from "react"
 import AddTask from "./1.04-AddTask"
 
 export default function ToDoList({
+    displayedTask, setDisplayedTask,
     allTasks, setAllTasks,
-    taskPeriod, setTaskPeriod,
-    timeOptions,
-    taskStatus, setTaskStatus,
-    statusOptions, numberOfTasks
+    numberOfTasks, statusOptions,
+    taskPeriod,
+    taskStatus, setTaskStatus
 }){
     const [addTask, setAddTask] = useState(false)
-    const [tasks, setTasks] = useState([])
-
-    console.log(allTasks)
-
-    useEffect(() => {
-        setTasks(allTasks.map(task => task))
-    }, [allTasks])
-
-    console.log(tasks)
 
     const todoDefaultImg = "https://images.unsplash.com/photo-1644329843491-99edfc83de04?q=80&w=2671&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 
-    //create task buttons
+    const date = new Date().toLocaleDateString();
+    console.log(date)
+
+
+    //create task buttons for edits and deletes
     const taskButtons = (buttonText, buttonType) => (
         <button className={`btn task__buttons task__buttons--${buttonType}`}>
             {buttonText}
         </button>
     )
+
+    //Create radio buttons for status and time period of to do list
+    const radioButtons = (buttonType, relevantArray) => {
+        return relevantArray.map((button, index) => (
+            <div className="radio-group" key={index}>
+                <input 
+                    type="radio" 
+                    className="radio-input" 
+                    id={`${buttonType}-${button}`} 
+                    name={buttonType}
+                    checked={taskStatus === button}
+                    onChange={() => setTaskStatus(button)}
+                />
+                <label htmlFor={`${buttonType}-${button}`} className="radio-label">
+                    <span className="radio-button"></span>
+                    <span className="radio-text">{button}</span>
+                </label>
+            </div>
+        ))
+    }
 
     //Render tasks based on period and status
     const taskCards = (taskArray) => {
@@ -46,9 +61,10 @@ export default function ToDoList({
                         <p>{task.task_description?task.task_description : null}</p>
                         <p>Due Date: {task.due_date}</p>
                         <p>Due Time: {task.due_time}</p>
+                        <h3>Status: {task.task_status}</h3>
                     </div>
                     <div className="task__buttons--box">
-                        {taskButtons("Edit Task", "edit")}
+                        {taskButtons("Edit Info", "edit")}
                         {taskButtons("Delete Task", "delete")}
                     </div>
                 </div>
@@ -56,54 +72,41 @@ export default function ToDoList({
         return renderCards
     }
 
-    //Create containers for timing and status button
-    const buttonConatiners = (typeText, buttonType, setButtonState) => {
-        const timeButtons = buttonType.map((specificButton, index) => (
-            <button
-                key={index}
-                onClick={() => setButtonState(specificButton)}
-            >
-                {specificButton}
-            </button>
-        ))
-
-        return(
-            <div>
-                <h3>
-                    {typeText}
-                </h3>
-                {timeButtons}
-        </div>
-        )
-    }
 
     return(
         <section className="col-3-of-4 section--todo__list">
-            <h1>{`To do list (${numberOfTasks})`}</h1>
+            <div className="section--todo__header">
+                <h2 className="heading-secondary">
+                    {`To do list`}
+                </h2>
 
-            {buttonConatiners("Tasks to be completed:", timeOptions, setTaskPeriod)}
+                <button 
+                    onClick={() => setAddTask(true)}
+                    className="btn btn--add--task"
+                >
+                    Add New Task +
+                </button>
+            </div>
 
-            {buttonConatiners("Show Tasks that are:", statusOptions, setTaskStatus)}
-
-            <button 
-                onClick={() => setAddTask(true)}
-            >
-                Add New Task
-            </button>
+            <div className="radio-button__box">
+                {radioButtons("status", statusOptions)}
+            </div>
 
             {
                 addTask?
                     <AddTask 
+                        allTasks={allTasks}
                         setAllTasks={setAllTasks}
                         statusOptions={statusOptions}
                         setAddTask={setAddTask}
+                        date={date}
                     />
                     :
                     null
             }
 
             {taskPeriod==="All" ?
-                taskCards(tasks)
+                taskCards(displayedTask)
                 :
                 null
             }

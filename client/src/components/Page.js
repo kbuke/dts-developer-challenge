@@ -41,6 +41,8 @@ export default function Page({
             setDisplayedTask(allTasks.filter(task => task.task_status === "Incomplete"))
         }
     }, [allTasks, taskStatus])
+
+    console.log(taskStatus)
     
 
 
@@ -58,9 +60,20 @@ export default function Page({
 
             <div className="section--todo">
                 <div className="row">
-                    <ToDoProgress />
+                    <ToDoProgress 
+                        taskPeriod={taskPeriod}
+                        setTaskPeriod={setTaskPeriod}
+                        timeOptions={timeOptions}
+
+                        taskStatus={taskStatus}
+                        setTaskStatus={setTaskStatus}
+                        statusOptions={statusOptions}
+                    />
                     <ToDoList 
-                        allTasks={displayedTask}
+                        displayedTask={displayedTask}
+                        setDisplayedTask={setDisplayedTask}
+
+                        allTasks={allTasks}
                         setAllTasks={setAllTasks}
 
                         taskPeriod={taskPeriod}

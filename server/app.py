@@ -39,11 +39,11 @@ class Tasks(Resource):
 
             new_task = Task(
                 title=json.get("newTaskTitle"),
-                task_description=("newTaskDescription"),
-                task_status=("newTaskStatus"),
+                task_description=json.get("newTaskDescription"),
+                task_status=json.get("newTaskStatus"),
                 due_date=due_date,
                 due_time=due_time,
-                task_img=("newTaskImg")
+                task_img=json.get("newTaskImg")
             )
             db.session.add(new_task)
             db.session.commit()

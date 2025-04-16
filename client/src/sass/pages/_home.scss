@@ -9,4 +9,11 @@
         height: 96vh;
         overflow-x: auto;
     }
+
+    &__header{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
 }

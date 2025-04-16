@@ -1,0 +1,81 @@
+.form{
+    &__group:not(:last-child){
+        margin-bottom: 2rem;
+    }
+
+    &_button{
+        &-box{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        &-submit,
+        &-cancel{
+            border: none;
+            height: 5rem;
+            width: 10rem;
+            color: white;
+            cursor: pointer;
+            border-radius: .7rem;
+        }
+
+        &-submit{
+            background-image: linear-gradient(to right bottom,
+                $add-task-button-color-dark,
+                $add-task-button-color-light
+            );
+        }
+
+        &-cancel{
+            background-image: linear-gradient(to right bottom,
+                $button-delete-red-dark,
+                $button-delete-red-light
+            );
+        }
+    }
+
+    &__input{
+        font-size: 1.5rem;
+        font-family: inherit;
+        padding: 1.5rem 2rem;
+        color: inherit;
+        border-radius: 2px;
+        background-color: rgba($text-input-color, .5);
+        border: none;
+        border-bottom: 3px solid transparent;
+        width: 90%;
+        display: block;
+        transition: all .3s;
+
+        &::-webkit-input-placeholder{
+            color: $text-input-color;
+        }
+
+        &:focus{
+            outline: none;
+            box-shadow: $box-shadow-dark;
+            border-bottom: 3px solid $color-primary-light;
+        }
+
+        &:focus:invalid{
+            border-bottom: 3px solid $color-secondary-dark;
+        }
+    }
+
+    &__label{
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-left: 2rem;
+        margin-top: .7rem;
+        display: block;
+        transition: all .5s;
+    }
+
+    &__input:placeholder-shown + &__label{
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-4rem);
+    }
+}

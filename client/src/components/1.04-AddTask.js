@@ -3,148 +3,123 @@ import { useFormik } from "formik"
 import * as yup from "yup"
 
 export default function AddTask({
+    allTasks,
     setAllTasks,
     statusOptions,
-    setAddTask
+    setAddTask,
+    date
 }){
+    const[newTaskTitle, setNewTaskTitle] = useState("")
+    const[newTaskDescription, setNewTaskDescription] = useState("")
+    const[newTaskStatus, setNewTaskStatus] = useState("")
+    const[newTaskImg, setNewTaskImg] = useState("")
+    const[newTaskDueDate, setNewTaskDueDate] = useState()
+    const[newTaskDueTime, setNewTaskDueTime] = useState()
 
-    //create input fields
-    const newTaskInput = (labelHeading, inputType) => (
-        <div>
-            <label>{labelHeading}</label>
+    const newTaskInput = (labelHeading, inputType, setState) => (
+        <div className="form__group">
             <input 
-                id={inputType}
-                name={inputType}
-                onChange={formik.handleChange}
-                value={formik.values.inputType}
+                onChange={(e) => setState(e.target.value)}
+                type={inputType} 
+                className="form__input"
+                placeholder={labelHeading}
+                id={labelHeading}
             />
-            <p>{formik.errors.inputType}</p>
+            <label className="form__label" htmlFor={labelHeading}>{labelHeading}</label>
         </div>
     )
 
-    useEffect(() => {
-        fetch("/tasks")
-        .then((res) => res.json())
-        .then((data) => {
-            setAllTasks(data)
-        })
-    }, [])
-
-    const formSchema = yup.object().shape({
-        newTaskTitle: yup.string().required("Must enter a title"),
-        newTaskDescription: yup.string(),
-        newTaskStatus: yup.string().required("Please select status of task"),
-        newTaskDueDate: yup
-            .date()
-            .required("Please select a due date")
-            .test("is-not-in-past", "Due date can't be in the past", function (value) {
-                if(!value) return false;
-                const today = new Date();
-                return value >= new Date(today.getFullYear(), today.getMonth(), today.getDate());
-            }),
-        newTaskDueTime: yup
-            .string()
-            .required("Please enter a time")
-            .test("valid-time", "Time can't be in the past if due today", function (timeStr) {
-                const {newTaskDueDate} = this.parent;
-                if (!newTaskDueDate || !timeStr) return true;
-
-                const today = new Date();
-                const selectedDate = new Date(newTaskDueDate);
-
-                if (
-                    selectedDate.getDate() === today.getDate() &&
-                    selectedDate.getMonth() === today.getMonth() &&
-                    selectedDate.getFullYear() === today.getFullYear()
-                ) {
-                    const [hour, minute] = timeStr.split(":").map(Number);
-                    const now = new Date();
-                    if(hour < now.getHours() || (hour === now.getHours() && minute <= now.getMinutes())){
-                        return false
-                    }
-                }
-                return true
-            }),
-        newTaskImg: yup.string().url("Must be a valid URL").nullable()
-    })
-
-    const formik = useFormik({
-        initialValues: {
-            newTaskTitle: "",
-            newTaskDescription: "",
-            newTaskStatus: "",
-            newTaskDueDate: "",
-            newTaskDueTime: "",
-            newTaskImg: ""
-        },
-        validationSchema: formSchema,
-        onSubmit: (values) => {
-            fetch("/tasks", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(values, null, 2),
-            }).then((res) => {
-                if (res.ok) {
-                    fetch("/tasks")
-                        .then(r => r.json())
-                        .then(data => {
-                            setAllTasks(data)
-                            setAddTask(false) 
-                        })
-                }
-            })
+    //handle additional tasks
+    const handleNewTasks = (e) => {
+        e.preventDefault()
+        const jsonData = {
+            newTaskTitle,
+            newTaskDescription,
+            newTaskStatus,
+            newTaskImg,
+            newTaskDueDate,
+            newTaskDueTime
         }
-        
-    })
-    return(
-        <section>
-            <form onSubmit={formik.handleSubmit}>
-                {newTaskInput("Add title of task", "newTaskTitle")}
-                {newTaskInput("Add description of task", "newTaskDescription")}
-                {newTaskInput("Add task image", "newTaskImg")}
+        fetch('/tasks', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(jsonData)
+        })
+        .then(r => r.json())
+        .then(newTask => {
+            setAllTasks([...allTasks, newTask])
+        })
+        .then(setAddTask(false))
+    }
 
-                <div>
-                    <label>Status</label>
+    
+
+    return(
+        <div className="popup-cover">
+            <form className="popup-cover_add_task form-box" onSubmit={(e) => handleNewTasks(e)}>
+                <h2 className="heading-tertiary">Add New Task</h2>
+
+                {newTaskInput("New Task", "text", setNewTaskTitle)}
+                {newTaskInput("Enter Description", "text", setNewTaskDescription)}
+
+                <div className="form__group">
+                    {/* <label>Status</label> */}
                     <select
                         name="newTaskStatus"
-                        onChange={formik.handleChange}
-                        value={formik.values.newTaskStatus}
+                        onChange={(e) => setNewTaskStatus(e.target.value)}
+                        value={newTaskStatus}
+                        className="form__input"
                     >
-                        <option value="" disabled>Please select an option</option>
+                        <option value="" disabled>Please Select Status</option>
                         {statusOptions.map((option, index) => (
-                            <option key={index} value={option}>{option}</option>
+                            <option key={index} value={option}>
+                                {option}
+                            </option>
                         ))}
                     </select>
-                    <p>{formik.errors.newTaskStatus}</p>
                 </div>
 
-                <div>
+                {newTaskInput("Enter Image of Task", "text", setNewTaskImg)}
+
+                <div className="form__group">
                     <label>Due Date</label>
-                    <input 
+                    <input
                         type="date"
-                        name="newTaskDueDate"
-                        onChange={formik.handleChange}
-                        value={formik.values.newTaskDueDate}
+                        onChange={(e) => setNewTaskDueDate(e.target.value)}
+                        min={date}
+                        className="form__input"
                     />
-                    <p>{formik.errors.newTaskDueDate}</p>
+                    {newTaskDueDate && new Date(date) < new Date(newTaskDueDate) ? (
+                        <p>{`Due date cannot be before today (${date})`}</p>
+                    ) : null}
                 </div>
 
-                <div>
-                    <label>Due Time</label>
+                <div className="form__group">
                     <input 
-                        type="time"
-                        name="newTaskDueTime"
-                        onChange={formik.handleChange}
-                        value={formik.values.newTaskDueTime}
+                        onChange={(e) => setNewTaskDueTime(e.target.value)}
+                        type="time" 
+                        className="form__input"
+                        placeholder="Due Time"
+                        id="Due Time"
                     />
-                    <p>{formik.errors.newTaskDueTime}</p>
+                    <label className="form__label" htmlFor="Due Time">Due Time</label>
                 </div>
 
-                <button type="submit">Submit</button>
-                <button onClick={() => setAddTask(false)}>Cancel</button>
+                <div className="form_button-box">
+                    <button className="form_button-submit" type="submit">
+                        Create New Task
+                    </button>
+
+                    <button 
+                        className="form_button-cancel"
+                        onClick={() => setAddTask(false)}
+                    >
+                        Cancel
+                    </button>
+                </div>
             </form>
-        </section>
+        </div>
     )
 }

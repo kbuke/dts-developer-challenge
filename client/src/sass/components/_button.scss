@@ -60,4 +60,32 @@
         z-index: -1;
         transition: all .4s;
     }
+
+    &--add--task{
+        background-image: linear-gradient(to right bottom,
+            $add-task-button-color-dark,
+            $add-task-button-color-light
+        );
+        margin-left: 1rem;
+        color: white;
+    }
+}
+
+.status__button{
+    &--selected,
+    &--unselected{
+        justify-content: center;
+        align-items: center;
+        width: 7rem;
+        display: flex;
+        height: 1rem;
+    }
+
+    &--unselected{
+        background-color: red;
+    }
+
+    &--selected{
+        background-color: green;
+    }
 }
