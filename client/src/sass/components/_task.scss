@@ -22,15 +22,28 @@
             transform: translateX(-3rem) skewX(12deg);
             position: relative;
             top: -2rem;
+            overflow: hidden;
         }
         &__img{
-            height: 95%;
-            transform: translateX(-4rem) scale(1.4);
-            transition: all .5s;
+            // height: 95%;
+            // transform: translateX(-4rem) scale(1.4);
+            // transition: all .5s;
+            // position: absolute;
+            // display: flex;
+            // align-self: center;
+            // justify-self: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            transform: translate(-50%, -50%);
+            transition: all 0.5s;
         }
 
         &:hover &__img{
-            transform: translateX(-4rem) scale(1);
+            transform: translateX(0rem) scale(4);
             filter: blur(3px) brightness(80%);
         }
     }

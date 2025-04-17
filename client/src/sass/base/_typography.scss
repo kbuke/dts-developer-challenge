@@ -52,3 +52,21 @@
     text-align: center;
     font-weight: 700;
 }
+
+.task__heading{
+    font-size: 1.5rem;
+
+    &--status-inProgress{
+        color: $color-secondary-dark
+    }
+
+    &--status-complete{
+        color: $add-task-button-color-dark;
+    }
+
+    &--status-incomplete{
+        color: $button-delete-red-dark;
+    }
+
+
+}

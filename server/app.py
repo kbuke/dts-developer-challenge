@@ -49,19 +49,36 @@ class TasksId(Resource):
 
     
     #patch task by id
+    from datetime import datetime, date, time
+
     def patch(self, id):
         data = request.get_json()
-        task_info = Task.query.filter(Task.id==id).first()
+        task_info = Task.query.filter(Task.id == id).first()
+        # breakpoint()
+
         if task_info:
             try:
                 for attr in data:
-                    setattr(task_info, attr, data[attr])
+                    value = data[attr]
+
+                    # Handle date string to date object
+                    if attr == "due_date":
+                        value = datetime.strptime(value, "%Y-%m-%d").date()  # ✅ use dashes
+                    elif attr == "due_time":
+                        value = datetime.strptime(value, "%H:%M").time()
+
+
+                    setattr(task_info, attr, value)
+
                 db.session.add(task_info)
                 db.session.commit()
                 return make_response(task_info.to_dict(), 202)
-            except ValueError:
-                return{"error": ["Validation Error"]}, 400
+
+            except ValueError as e:
+                return {"error": [str(e)]}, 400
+
         return {"error": "Task not found"}, 404
+
 
     #delete task by id
     def delete(self, id):

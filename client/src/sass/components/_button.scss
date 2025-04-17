@@ -69,6 +69,18 @@
         margin-left: 1rem;
         color: white;
     }
+
+    &__time-box{
+        margin-bottom: 2rem;
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+    }
+
+    &__time-selected{
+        background-color: $add-task-button-color-dark;
+        color: white;
+    }
 }
 
 .status__button{

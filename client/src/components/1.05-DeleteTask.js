@@ -4,9 +4,10 @@ export default function DeleteTask({
     setDeleteTask,
     allTasks,
     setAllTasks,
-    selectedTaskId
+    selectedTaskId,
+    selectedTaskTitle
 }){
-    console.log(`deleting task number ${selectedTaskId}`)
+    console.log(`deleting task number ${selectedTaskTitle}`)
 
     const handleDeleteTask = (e, taskId) => {
         e.preventDefault()
@@ -24,7 +25,7 @@ export default function DeleteTask({
     return(
         <div className="popup-cover">
             <form className="popup-cover_add_task form-box" onSubmit={(e) => handleDeleteTask(e)}>
-                <h2>Delete This Task?</h2>
+                <h2>Delete {selectedTaskTitle}?</h2>
 
                 <div className="form_button-box">
                     <button className="form_button-submit" type="submit">

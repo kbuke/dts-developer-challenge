@@ -22,6 +22,8 @@ export default function Page({
 
     //Show period of tasks (all, daily, weekly, monthly)
     const [taskPeriod, setTaskPeriod] = useState("All")
+    const [monday, setMonday] = useState()
+    const [sunday, setSunday] = useState()
     //Set time period options
     const timeOptions = ["All", "Today", "This Week", "This Month", "Overdue"]
 
@@ -30,7 +32,14 @@ export default function Page({
     //Set status options
     const statusOptions = ["All", "Complete", "Incomplete", "In Progress"]
 
+    const date = new Date().toLocaleDateString("en-US")
+    console.log(`todays date is ${date}`)
+    
+
+    console.log(`Today is ${date}`)
+
     useEffect(() => {
+
         if (taskStatus === "All") {
             setDisplayedTask(allTasks)
         } else if (taskStatus === "Complete") {
@@ -39,20 +48,13 @@ export default function Page({
             setDisplayedTask(allTasks.filter(task => task.task_status === "In Progress"))
         } else if (taskStatus === "Incomplete") {
             setDisplayedTask(allTasks.filter(task => task.task_status === "Incomplete"))
-        }
-    }, [allTasks, taskStatus])
-
-    console.log(taskStatus)
-    
-
+        } 
+    }, [allTasks, taskStatus, taskPeriod])
 
     //Calculate number of tasks whenever there is a change
     useEffect(() => {
         setNumberOfTasks(allTasks.length)
     }, [allTasks])
-
-    console.log(`There are ${numberOfTasks} tasks in total`)
-    console.log(allTasks)
 
     return(
         <div>
@@ -85,6 +87,8 @@ export default function Page({
                         statusOptions={statusOptions}
 
                         numberOfTasks={numberOfTasks}
+
+                        date={date}
                     />
                 </div>
             </div>

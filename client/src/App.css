@@ -82,6 +82,15 @@ body {
   text-align: center;
   font-weight: 700; }
 
+.task__heading {
+  font-size: 1.5rem; }
+  .task__heading--status-inProgress {
+    color: #276fce; }
+  .task__heading--status-complete {
+    color: #038010; }
+  .task__heading--status-incomplete {
+    color: #c20000; }
+
 .btn {
   border: none;
   cursor: pointer; }
@@ -128,6 +137,14 @@ body {
   .btn--add--task {
     background-image: linear-gradient(to right bottom, #038010, #0eb71f);
     margin-left: 1rem;
+    color: white; }
+  .btn__time-box {
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: center;
+    gap: 1rem; }
+  .btn__time-selected {
+    background-color: #038010;
     color: white; }
 
 .status__button--selected, .status__button--unselected {
@@ -280,13 +297,19 @@ body {
     clip-path: circle(50% at 50% 50%);
     transform: translateX(-3rem) skewX(12deg);
     position: relative;
-    top: -2rem; }
+    top: -2rem;
+    overflow: hidden; }
   .task__card__img {
-    height: 95%;
-    transform: translateX(-4rem) scale(1.4);
-    transition: all .5s; }
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    transform: translate(-50%, -50%);
+    transition: all 0.5s; }
   .task__card:hover .task__card__img {
-    transform: translateX(-4rem) scale(1);
+    transform: translateX(0rem) scale(4);
     filter: blur(3px) brightness(80%); }
 
 .task__text {

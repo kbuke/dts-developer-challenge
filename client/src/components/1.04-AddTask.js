@@ -79,6 +79,7 @@ export default function AddTask({
                             </option>
                         ))}
                     </select>
+                    <label className="form__label" htmlFor="Task Status">Task Status</label>
                 </div>
 
                 {newTaskInput("Enter Image of Task", "text", setNewTaskImg)}
